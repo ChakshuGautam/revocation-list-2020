@@ -86,9 +86,9 @@ const generateRevocationList = async (totalCredentials, totalRevoked, testNumber
 }
 
 (async () => {
-    for (let i = 1; i <= 8; i++) {
-        for (let j = 1; j <= 8; j++) {
-            await generateRevocationList(10 ** i, Math.ceil(10 ** i / (10 * j)), (i - 1) * 10 + j);
+    for (let i = 6; i <= 8; i++) {
+        for (let j = 1; j <= 10; j++) {
+            await generateRevocationList(10 ** i, Math.ceil(10 ** i / (10 * j)), (i - 6) * 10 + j);
         }
     }
 })();

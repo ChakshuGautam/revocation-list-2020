@@ -1,6 +1,6 @@
 ## Benchmark Zlib for Revocation List
 
-This is a benchmark for the Zlib compression algorithm for the Revocation List.
+This is a benchmark for the Zlib compression algorithm for the [Revocation List](https://w3c-ccg.github.io/vc-status-rl-2020/).
 It can be reproduced by running the following command:
 
 ```bash
