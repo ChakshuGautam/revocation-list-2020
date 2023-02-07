@@ -10,46 +10,7 @@ node bench.js
 ## Results
 
 ```csv
-1 10 1 Infinity
-2 10 1 Infinity
-5 10 1 Infinity
-4 10 1 1
-3 10 1 Infinity
-7 10 1 1
-12 100 5 10
-11 100 10 Infinity
-6 10 1 1
-8 10 1 1
-13 100 4 10
-14 100 3 Infinity
-15 100 2 10
-16 100 2 10
-18 100 2 10
-21 1000 100 100
-22 1000 50 Infinity
-17 100 2 Infinity
-24 1000 25 Infinity
-26 1000 17 Infinity
-25 1000 20 Infinity
-23 1000 34 Infinity
-27 1000 15 Infinity
-28 1000 13 Infinity
-32 10000 500 Infinity
-33 10000 334 Infinity
-34 10000 250 Infinity
-36 10000 167 Infinity
-35 10000 200 Infinity
-31 10000 1000 Infinity
-37 10000 143 Infinity
-38 10000 125 Infinity
-41 100000 10000 Infinity
-42 100000 5000 Infinity
-43 100000 3334 10000
-44 100000 2500 Infinity
-45 100000 2000 Infinity
-46 100000 1667 Infinity
-47 100000 1429 Infinity
-48 100000 1250 Infinity
+Test TotalCredentials RevokedCredentials CompressionRatio
 51 1000000 100000 15.763919540954664
 52 1000000 50000 28.72902780969892
 53 1000000 33334 28.162667567872028
