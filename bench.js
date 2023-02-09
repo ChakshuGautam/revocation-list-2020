@@ -1,45 +1,41 @@
 const fs = require('fs');
 const zlib = require('zlib');
+const { Readable } = require('stream')
+
+function setBit(buffer, i, bit, value) {
+    if (value == 0) {
+        buffer[i] &= ~(1 << bit);
+    } else {
+        buffer[i] |= (1 << bit);
+    }
+}
 
 const generateRevocationList = async (totalCredentials, totalRevoked, testNumber) => {
-    const filePaths = []
-    const percentageRevoked = Math.ceil(100 * totalRevoked / totalCredentials);
-    filePaths.push(`./input.${testNumber}.txt`);
+    return new Promise((res, rej) => {
+        const filePaths = []
+        const percentageRevoked = Math.ceil(100 * totalRevoked / totalCredentials);
 
-    // Make this code async
-    const file = fs.createWriteStream(`./input.${testNumber}.txt`);
-    // Push 0 or 1 base don the percentage to input.txt for totalCredentials times
-    for (let i = 0; i < totalCredentials; i++) {
-        const random = Math.floor(Math.random() * 100);
-        if (random < percentageRevoked) {
-            // Drain - https://stackoverflow.com/questions/50357777/why-does-attempting-to-write-a-large-file-cause-js-heap-to-run-out-of-memory
-            if (!file.write('1')) {
-                // Will pause every 16384 iterations until `drain` is emitted
-                await new Promise(resolve => file.once('drain', resolve));
-            }
-        } else {
-            if (!file.write('0')) {
-                // Will pause every 16384 iterations until `drain` is emitted
-                await new Promise(resolve => file.once('drain', resolve));
+        buf = Buffer.alloc(Math.ceil(totalCredentials / 8))
+
+        // Push 0 or 1 base don the percentage to input.txt for totalCredentials times
+        for (let i = 0; i < totalCredentials; i++) {
+            const random = Math.floor(Math.random() * 100);
+            if (random < percentageRevoked) {
+                setBit(buf, Math.floor(i / 8), i % 8, 1)
+            } else {
+                setBit(buf, Math.floor(i / 8), i % 8, 0)
             }
         }
-    }
-    file.end();
 
-    file.on('finish', () => {
-        // console.log('Finished writing to file');
-        // Check if the file is generated correctly
-        const inputFile = fs.readFileSync(`./input.${testNumber}.txt`, 'utf8');
-        if (inputFile.length === totalCredentials) {
-        } else {
-            console.log('Input file length mismatched - Failure');
-        }
+        fs.writeFileSync(`./input.${testNumber}.txt`, buf)
 
         // Compress the file
+        filePaths.push(`./input.${testNumber}.txt`);
         filePaths.push(`./input.${testNumber}.txt.gz`);
         const fileContentsToBeZipped = fs.createReadStream(`./input.${testNumber}.txt`);
         const writeStreamToBeZippd = fs.createWriteStream(`./input.${testNumber}.txt.gz`);
         const zip = zlib.createGzip();
+
         fileContentsToBeZipped.pipe(zip).pipe(writeStreamToBeZippd);
 
         fileContentsToBeZipped.on('end', () => {
@@ -81,8 +77,10 @@ const generateRevocationList = async (totalCredentials, totalRevoked, testNumber
             //         console.log('Input Output Mismatched - Failure', input.length, output.length);
             //     }
             // });
+
+            res()
         });
-    });
+    })
 }
 
 (async () => {
